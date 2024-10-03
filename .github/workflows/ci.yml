@@ -1,0 +1,22 @@
+name: Dynamic Loop with workflow_dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      loop_count:
+        description: 'Number of times to run the loop'
+        required: true
+        default: 5  # Default value if no input is provided
+        type: number
+
+jobs:
+  dynamic-loop-job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Run Docker Build N Times
+      run: |
+        echo "Running loop ${{ github.event.inputs.loop_count }} times"
+        for i in $(seq 1 ${{ github.event.inputs.loop_count }}); do
+          echo "Running docker build for iteration $i"
+        done
